@@ -1,18 +1,15 @@
-# Centro Controllo Elettrodomestici (Custom Component)
+# Centro Controllo Elettrodomestici Home Assistant (Custom Component)
+
+[![it](https://img.shields.io/badge/lang-it-green.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/blob/main/README_it.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestic/blob/main/README.md)
+
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
+[![version](https://img.shields.io/badge/version-v3.0.0-blue.svg)]()
+[![maintainer](https://img.shields.io/badge/maintainer-Salvatore_Lentini_--_DomHouse.it-green.svg)](https://www.domhouse.it)
 
 Integrazione custom per **Home Assistant** che monitora un elettrodomestico tramite una **presa smart**: deduce lo stato (in funzione / fermo) dal consumo, misura durata, energia e costo di ogni ciclo e — se hai un impianto **fotovoltaico** e/o una **batteria** di accumulo — calcola quanta parte del consumo è coperta da energia pulita.
 
-È la versione "duplicabile" del package YAML DomHouse: ogni elettrodomestico (lavatrice, forno, asciugatrice, lavastoviglie…) si aggiunge dalla UI, senza copiare file e rinominare entità a mano.
-
-- **Versione:** 0.9.1
-- **Dominio:** `domhouse_elettrodomestici`
-- **Config flow:** sì (tutto dalla UI, nessun YAML)
-- **Dipendenze:** nessuna (funziona da solo; le notifiche usano un blueprint incluso)
-- 🌐 [www.domhouse.it](https://domhouse.it/centro-controllo-elettrodomestici-in-home-assistant/)
-
----
-
-## Indice
+## 🌟 Indice
 
 - [Come funziona](#come-funziona)
 - [Installazione](#installazione)
@@ -24,12 +21,8 @@ Integrazione custom per **Home Assistant** che monitora un elettrodomestico tram
 - [Notifiche fine ciclo](#notifiche-fine-ciclo)
 - [Evento `..._ciclo_finito`](#evento-domhouse_elettrodomestici_ciclo_finito)
 - [Persistenza](#persistenza)
-- [Note](#note)
-- [Changelog](#changelog)
 
----
-
-## Come funziona
+## ❓ Come funziona
 
 1. Legge la **potenza** della presa smart (in W).
 2. Confronta con la **soglia di lavoro**: sopra soglia per *N* secondi (ritardo accensione) → **in funzione**; sotto soglia per *M* minuti (ritardo spegnimento) → **fermo**. I ritardi evitano falsi avvii e falsi stop nelle pause del ciclo (centrifuga, risciacqui, ecc.).
@@ -38,23 +31,19 @@ Integrazione custom per **Home Assistant** che monitora un elettrodomestico tram
 
 Tutto è **event-driven** (reagisce ai cambi del sensore di potenza) con un tick di sicurezza ogni 15 s.
 
----
-
-## Installazione
+## 📥 Installazione
 
 ### Via HACS (consigliato)
 1. HACS → menu ⋮ in alto a destra → **Repository personalizzate**.
 2. Aggiungi l'URL del repository, categoria **Integration**.
-3. Cerca *DomHouse – Centro Controllo Elettrodomestici* e installa.
+3. Cerca *DH - Centro Controllo Elettrodomestici* e installa.
 4. **Riavvia** Home Assistant.
-5. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione** → cerca *DomHouse*.
+5. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione** → cerca *DH - Centro Controllo Elettrodomestici*.
 
 ### Manuale
 Copia la cartella `custom_components/domhouse_elettrodomestici` in `config/custom_components/` e riavvia HA.
 
----
-
-## Configurazione
+## ⚙️ Configurazione
 
 Aggiungendo l'integrazione scegli **cosa creare** (menu a tre voci). Puoi aggiungerla più volte.
 
@@ -73,7 +62,8 @@ Sensori FV e batteria **condivisi** da tutti gli elettrodomestici.
 Tutti i campi sono **opzionali**. La batteria si può fornire in tre modi: un sensore **bidirezionale** (il segno distingue carica/scarica), due sensori separati (usi il campo *scarica*), o solo il sensore di **scarica**.
 
 ### 2. Costo energia (una volta sola, opzionale)
-Una scheda a sé con il solo prezzo **€/kWh**, condiviso da tutti gli elettrodomestici. È il posto per il costo **anche senza** fotovoltaico: non serve creare un impianto FV vuoto solo per il prezzo. Se non la crei vale il **default 0,25 €/kWh**.
+Una scheda a sé con il solo prezzo **€/kWh**, condiviso da tutti gli elettrodomestici.
+Se non la crei vale il **default 0,25 €/kWh**.
 
 **Priorità del costo:** costo impostato sul singolo elettrodomestico → scheda *Costo energia* → vecchio impianto FV (retrocompatibilità) → default 0,25.
 
@@ -91,7 +81,7 @@ Soglia di lavoro e ritardi di accensione/spegnimento partono da valori di defaul
 
 ---
 
-## Modello di calcolo (FV / batteria / rete)
+## ⚡ Modello di calcolo (FV / batteria / rete)
 
 Lo split richiede almeno il sensore **prelievo da rete**. Il consumo di casa in ogni istante è:
 
@@ -107,7 +97,7 @@ Il consumo dell'elettrodomestico viene attribuito alle fonti **nelle stesse prop
 
 ---
 
-## Entità create
+## 📊 Entità create
 
 Gli `entity_id` seguono lo schema `<dominio>.<nome_slug>_<entità>`. Esempio con device "Lavatrice":
 
@@ -166,7 +156,7 @@ Gli `entity_id` seguono lo schema `<dominio>.<nome_slug>_<entità>`. Esempio con
 
 ---
 
-## Servizio di reset
+## 🔧  Servizio di reset
 
 `domhouse_elettrodomestici.reset` azzera i contatori. Target: l'elettrodomestico. Campo **`azzera`**:
 
@@ -181,25 +171,21 @@ La data dell'ultimo reset finisce nel sensore *Ultimo reset*. Dalla card si fa d
 
 ---
 
-## Statistiche periodiche
+## 📊 Statistiche periodiche
 
 - **Energia / Costo / Cicli / Tempo** per **oggi**, **mese**, **anno**. Ogni sensore porta negli attributi il **periodo precedente** (ieri / mese scorso / anno scorso) e, per l'energia, la quota da FV, da batteria, da rete e la % di energia pulita.
 - **Riepilogo settimana**: stato = kWh totali degli ultimi 7 giorni; negli attributi, per ogni giorno della settimana, `kwh`, `costo`, `cicli`, `tempo_h`.
 
 I reset di periodo avvengono da soli: a **mezzanotte** (giorno), il **1° del mese** e il **1° gennaio** (anno).
 
----
+## 🤖 Notifiche fine ciclo
 
-## Notifiche fine ciclo
-
-A fine ciclo l'integrazione emette l'evento `domhouse_elettrodomestici_ciclo_finito`. Le notifiche si configurano con il **blueprint incluso** (`blueprints/automation/domhouse_elettrodomestici/notifica_fine_ciclo.yaml`), che non dipende da integrazioni specifiche.
+Le notifiche si configurano con il **blueprint incluso** (`blueprints/automation/dh_centro_controllo_elettrodomestici.yaml`), che non dipende da integrazioni specifiche.
 
 - **Canali:** Push, Google (TTS), Alexa, HA (notifica persistente). Si attivano dagli **interruttori** di ogni elettrodomestico (anche dalla card).
 - **Fascia oraria:** vale **solo** per Google e Alexa (gli annunci vocali). Push e HA arrivano sempre.
 - **Target:** nel blueprint scegli solo i target — servizio `notify.*` per il push, i media player per Google/Alexa, e il **servizio TTS Google** (default `tts.google_translate_say`, modificabile). Con *Elettrodomestico (filtro)* vuoto, una sola automazione vale per tutti.
 - **Frase vocale per device:** poiché il blueprint è unico ma la grammatica cambia, ogni elettrodomestico ha nelle sue **impostazioni** il campo *Frase annuncio vocale*: `Lavaggio terminato`, `Asciugatura terminata`, `Piatti lavati`, ecc. La push non è toccata.
-
----
 
 ## Evento `domhouse_elettrodomestici_ciclo_finito`
 
@@ -221,30 +207,15 @@ Payload (per automazioni tue):
 | `has_batt` | bool | batteria configurata |
 | `notifica_push` / `notifica_google` / `notifica_alexa` / `notifica_ha` | bool | canali attivi (Google/Alexa già filtrati per fascia oraria) |
 
----
-
-## Persistenza
+## 🔬 Persistenza
 
 Tutto lo stato (totali lifetime, periodi, storico settimana, ultimo ciclo **e ciclo in corso**, preferenze, soglie) è salvato su disco: sopravvive ai riavvii di HA. Se HA si riavvia **durante** un ciclo, il ciclo riprende da dove era senza ripartire da zero.
 
----
+## ☕ Supporta il Progetto
 
-## Note
+Ogni piccolo supporto fa un'enorme differenza: mi aiuta a mantenere vivo l'entusiasmo e mi stimola a creare e condividere nuove soluzioni per la community. Grazie di cuore per il tuo aiuto! 🚀
 
-- Gli `entity_id` sono generati da HA dai nomi in **italiano**: con HA in un'altra lingua gli slug cambiano (e la card va adattata).
-- Il cambio di una **opzione** (impianto, costo, elettrodomestico) ricarica automaticamente l'integrazione: le modifiche sono attive subito, senza riavvio.
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/salvatore_dh)
 
----
-
-## Changelog
-
-- **0.9.1** — I dati energetici del ciclo (energia/FV/batteria/rete) e lo stato del ciclo sono ora persistiti: non si azzerano più ai riavvii; i cicli in corso riprendono dopo un riavvio.
-- **0.9.0** — Scheda **Costo energia** separata dall'impianto FV.
-- **0.8.0** — Supporto **batteria** (bidirezionale / scarica) con split a 3 vie; funziona anche **senza FV**; entità condizionali per fonte.
-- **0.7.0** — **Frase annuncio vocale** configurabile per elettrodomestico.
-- **0.6.0** — Preferenze notifiche (push/google/alexa/ha) e fascia oraria sul device; switch presa event-driven.
-- **0.4.0** — Controllo presa, spegnimento automatico a orario, servizio di reset.
-
----
-
-© DomHouse.it — Salvatore Lentini
+## ❤️ Crediti
+Sviluppato da [Salvatore Lentini - DomHouse.it](https://www.domhouse.it)
