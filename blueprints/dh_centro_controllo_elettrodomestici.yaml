@@ -1,0 +1,133 @@
+blueprint:
+  name: Centro Controllo Elettrodomestici - Notifiche (DomHouse.it)
+  description: >
+    Invia una notifica fine ciclo.
+    Push, Google, Alexa e HA si attivano/disattivano dagli interruttori dell'elettrodomestico.
+    La fascia oraria di Google/Alexa è quella impostata sul device.
+    Scegli solo i target su cui inviare. Lascia vuoto un canale per non usarlo.
+
+    ⚙️ **Versione**: 1.0.0
+
+    👨‍💻 **Sviluppatore**: Salvatore Lentini
+
+    🌐 **Sito Web**: [www.domhouse.it](https://domhouse.it/centro-controllo-elettrodomestici-in-home-assistant/)
+
+  domain: automation
+  author: DomHouse.it
+  input:
+    nome_filtro:
+      name: Elettrodomestico (filtro)
+      description: Vuoto = tutti. Oppure il nome esatto (es. "Lavatrice") per uno solo.
+      default: ""
+      selector:
+        text:
+    notify_service:
+      name: Servizio notifica push
+      description: Es. notify.mobile_app_telefono. Lascia vuoto per non inviare push.
+      default: ""
+      selector:
+        text:
+    media_player_google:
+      name: Media player Google (TTS)
+      default: []
+      selector:
+        entity:
+          domain: media_player
+          multiple: true
+    tts_google_service:
+      name: Servizio TTS Google
+      description: >
+        Servizio usato per l'annuncio sui media player Google.
+        Default tts.google_translate_say; es. tts.google_cloud_say.
+        Deve accettare "entity_id" e "message".
+      default: tts.google_translate_say
+      selector:
+        text:
+    media_player_alexa:
+      name: Media player Alexa
+      default: []
+      selector:
+        entity:
+          domain: media_player
+          multiple: true
+
+mode: queued
+max_exceeded: silent
+
+trigger:
+  - platform: event
+    event_type: domhouse_elettrodomestici_ciclo_finito
+
+variables:
+  nome_filtro: !input nome_filtro
+  svc_push: !input notify_service
+  mp_google: !input media_player_google
+  svc_google_tts: !input tts_google_service
+  mp_alexa: !input media_player_alexa
+  nome: "{{ trigger.event.data.name }}"
+  durata: "{{ trigger.event.data.duration_min | float(0) | round(0) | int }}"
+  durata_breve: >-
+    {% set m = durata | int %}{% if m >= 60 %}{{ m // 60 }}h{% if m % 60 %} {{ m % 60 }}m{% endif %}{% else %}{{ m }} min{% endif %}
+  durata_estesa: >-
+    {% set m = durata | int %}{% set h = m // 60 %}{% set mm = m % 60 %}{% if h >= 1 %}{{ h }} {{ 'ora' if h == 1 else 'ore' }}{% if mm > 0 %} e {{ mm }} {{ 'minuto' if mm == 1 else 'minuti' }}{% endif %}{% else %}{{ mm }} {{ 'minuto' if mm == 1 else 'minuti' }}{% endif %}
+  energia: "{{ trigger.event.data.energy_kwh | float(0) | round(2) }}"
+  ftv: "{{ trigger.event.data.ftv_kwh | float(0) | round(2) }}"
+  rete: "{{ trigger.event.data.grid_kwh | float(0) | round(2) }}"
+  pulita: "{{ trigger.event.data.clean_pct }}"
+  costo: "{{ trigger.event.data.cost }}"
+  vpush: "{{ trigger.event.data.notifica_push }}"
+  vgoogle: "{{ trigger.event.data.notifica_google }}"
+  valexa: "{{ trigger.event.data.notifica_alexa }}"
+  vha: "{{ trigger.event.data.notifica_ha }}"
+  frase: "{{ trigger.event.data.frase_vocale | default('', true) }}"
+  batt: "{{ trigger.event.data.batt_kwh | default(0) | float(0) | round(2) }}"
+  mostra_fv: "{{ (trigger.event.data.has_pv | default(false)) or (ftv | float(0)) > 0 }}"
+  mostra_batt: "{{ (trigger.event.data.has_batt | default(false)) or (batt | float(0)) > 0 }}"
+  mostra_pulito: "{{ (mostra_fv | bool) or (mostra_batt | bool) }}"
+  messaggio: >-
+    {{ "📌 " ~ (frase if frase else nome)
+    ~ "\n⏱ " ~ (durata_breve | trim)
+    ~ "\n⚡️ Consumati: " ~ energia ~ " kWh"
+    ~ (("\n🌞 Fotovoltaico: " ~ ftv ~ " kWh") if (mostra_fv | bool) else "")
+    ~ (("\n🔋 Da batteria: " ~ batt ~ " kWh") if (mostra_batt | bool) else "")
+    ~ (("\n🗼 Prelevati: " ~ rete ~ " kWh") if (mostra_pulito | bool) else "")
+    ~ (("\n🍃 Energia Pulita: " ~ pulita ~ " %") if (mostra_pulito | bool) else "")
+    ~ "\n💰 Spesi: " ~ costo ~ " €" }}
+  messaggio_vocale: >-
+    {{ frase if frase else (nome ~ ' terminato') }} in {{ durata_estesa | trim }}.
+
+condition:
+  - condition: template
+    value_template: "{{ nome_filtro == '' or trigger.event.data.name == nome_filtro }}"
+
+action:
+  - if: "{{ vpush and svc_push | trim != '' }}"
+    then:
+      - service: "{{ svc_push }}"
+        continue_on_error: true
+        data:
+          title: "{{ nome }}"
+          message: "{{ messaggio }}"
+  - if: "{{ vha }}"
+    then:
+      - service: persistent_notification.create
+        data:
+          title: "📥 {{ nome }}"
+          message: "{{ messaggio }}"
+  - if: "{{ vgoogle and mp_google | length > 0 and svc_google_tts | trim != '' }}"
+    then:
+      - service: "{{ svc_google_tts }}"
+        continue_on_error: true
+        data:
+          entity_id: "{{ mp_google }}"
+          message: "{{ messaggio_vocale }}"
+  - if: "{{ valexa and mp_alexa | length > 0 }}"
+    then:
+      - service: notify.alexa_media
+        continue_on_error: true
+        data:
+          target: "{{ mp_alexa }}"
+          data:
+            type: announce
+            method: spoken
+          message: "{{ messaggio_vocale }}"
