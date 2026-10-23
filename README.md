@@ -1,7 +1,7 @@
 # Centro Controllo Elettrodomestici Home Assistant (Custom Component)
 
 [![it](https://img.shields.io/badge/lang-it-green.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/blob/main/README_it.md)
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestic/blob/main/README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/blob/main/README.md)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![version](https://img.shields.io/badge/version-v3.0.0-blue.svg)]()
