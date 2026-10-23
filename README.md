@@ -198,6 +198,12 @@ Payload (per automazioni tue):
 
 Tutto lo stato (totali lifetime, periodi, storico settimana, ultimo ciclo **e ciclo in corso**, preferenze, soglie) è salvato su disco: sopravvive ai riavvii di HA. Se HA si riavvia **durante** un ciclo, il ciclo riprende da dove era senza ripartire da zero.
 
+## 🎨 Frontend (Dashboard)
+
+Per goderti un'esperienza visiva spettacolare su Lovelace, ho sviluppato una **Card custom** progettata appositamente per questa integrazione.
+
+👉 **[Scarica la Card per Lovelace cliccando qui](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici-Card)**
+
 ## ☕ Supporta il Progetto
 
 Ogni piccolo supporto fa un'enorme differenza: mi aiuta a mantenere vivo l'entusiasmo e mi stimola a creare e condividere nuove soluzioni per la community. Grazie di cuore per il tuo aiuto! 🚀
