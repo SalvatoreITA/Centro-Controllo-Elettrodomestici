@@ -203,7 +203,8 @@ Invia una notifica (push, Google, Alexa o HA) con durata, consumi ed energia pul
 
 Richiede che tu abbia [My Home Assistant](https://my.home-assistant.io/) configurato sulla tua istanza.
 
-[![Apri la tua istanza Home Assistant e importa questo blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fraw.githubusercontent.com%2FSalvatoreITA%2FCentro-Controllo-Elettrodomestici%2Fmain%2Fblueprints%2Fdh_centro_controllo_elettrodomestici.yaml)
+[![Apri la tua istanza Home Assistant e importa questo blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/main/blueprints/dh_centro_controllo_elettrodomestici.yaml
+)
 
 ### Metodo 2 · Manuale (funziona sempre)
 
