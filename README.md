@@ -204,6 +204,11 @@ Per goderti un'esperienza visiva spettacolare su Lovelace, ho sviluppato una **C
 
 👉 **[Scarica la Card per Lovelace cliccando qui](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici-Card)**
 
+### 🎉 Blueprint
+Invia una notifica (push, Google, Alexa o HA) con durata, consumi ed energia pulita quando un elettrodomestico del Centro Controllo Elettodomestici termina il ciclo. ( Ne Basta uno per tutti gli Elettrodomestici )
+
+[![Importa Blueprint in Home Assistant](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/SalvatoreITA/DomHouse-Octopus-PowerUp-Card/refs/heads/main/blueprints/octopus_power_up_notifiche.yaml)
+
 ## ☕ Supporta il Progetto
 
 Ogni piccolo supporto fa un'enorme differenza: mi aiuta a mantenere vivo l'entusiasmo e mi stimola a creare e condividere nuove soluzioni per la community. Grazie di cuore per il tuo aiuto! 🚀
