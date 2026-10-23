@@ -9,19 +9,6 @@
 
 Integrazione custom per **Home Assistant** che monitora un elettrodomestico tramite una **presa smart**: deduce lo stato (in funzione / fermo) dal consumo, misura durata, energia e costo di ogni ciclo e — se hai un impianto **fotovoltaico** e/o una **batteria** di accumulo — calcola quanta parte del consumo è coperta da energia pulita.
 
-## 🌟 Indice
-
-- [Come funziona](#come-funziona)
-- [Installazione](#installazione)
-- [Configurazione](#configurazione)
-- [Modello di calcolo (FV / batteria / rete)](#modello-di-calcolo-fv--batteria--rete)
-- [Entità create](#entità-create)
-- [Servizio di reset](#servizio-di-reset)
-- [Statistiche periodiche](#statistiche-periodiche)
-- [Notifiche fine ciclo](#notifiche-fine-ciclo)
-- [Evento `..._ciclo_finito`](#evento-domhouse_elettrodomestici_ciclo_finito)
-- [Persistenza](#persistenza)
-
 ## ❓ Come funziona
 
 1. Legge la **potenza** della presa smart (in W).
