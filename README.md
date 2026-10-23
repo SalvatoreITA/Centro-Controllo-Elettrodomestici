@@ -66,8 +66,6 @@ Se non la crei vale il **default 0,25 €/kWh**.
 
 Soglia di lavoro e ritardi di accensione/spegnimento partono da valori di default e si regolano **a runtime** dalle entità `number` (vedi sotto).
 
----
-
 ## ⚡ Modello di calcolo (FV / batteria / rete)
 
 Lo split richiede almeno il sensore **prelievo da rete**. Il consumo di casa in ogni istante è:
@@ -81,8 +79,6 @@ Il consumo dell'elettrodomestico viene attribuito alle fonti **nelle stesse prop
 
 - **Senza fotovoltaico** → le voci FV e "Energia pulita" non vengono create; senza nemmeno la batteria, tutto il consumo è "da rete".
 - **Senza prelievo da rete configurato** → nessuno split possibile, tutto considerato "da rete".
-
----
 
 ## 📊 Entità create
 
@@ -141,8 +137,6 @@ Gli `entity_id` seguono lo schema `<dominio>.<nome_slug>_<entità>`. Esempio con
 
 > Le voci **da fotovoltaico** e **Energia pulita** nascono solo con FV configurato; le voci **da batteria** solo con batteria. Chi non ha né l'uno né l'altra vede solo i consumi totali e il costo. Le entità **Presa / Spegnimento automatico** nascono solo se hai associato un interruttore.
 
----
-
 ## 🔧  Servizio di reset
 
 `domhouse_elettrodomestici.reset` azzera i contatori. Target: l'elettrodomestico. Campo **`azzera`**:
@@ -155,8 +149,6 @@ Gli `entity_id` seguono lo schema `<dominio>.<nome_slug>_<entità>`. Esempio con
 | `ciclo` | solo il ciclo in corso |
 
 La data dell'ultimo reset finisce nel sensore *Ultimo reset*. Dalla card si fa da **Controllo → Contatori → Esegui** (con conferma).
-
----
 
 ## 📊 Statistiche periodiche
 
@@ -207,7 +199,21 @@ Per goderti un'esperienza visiva spettacolare su Lovelace, ho sviluppato una **C
 ## 🎉 Blueprint
 Invia una notifica (push, Google, Alexa o HA) con durata, consumi ed energia pulita quando un elettrodomestico del Centro Controllo Elettodomestici termina il ciclo. ( Ne Basta uno per tutti gli Elettrodomestici )
 
-[![Importa Blueprint in Home Assistant](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https://raw.githubusercontent.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/refs/heads/main/blueprints/dh_centro_controllo_elettrodomestici.yaml)
+### Metodo 1 · Un clic
+
+Richiede che tu abbia [My Home Assistant](https://my.home-assistant.io/) configurato sulla tua istanza.
+
+[![Apri la tua istanza Home Assistant e importa questo blueprint.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fraw.githubusercontent.com%2FSalvatoreITA%2FCentro-Controllo-Elettrodomestici%2Fmain%2Fblueprints%2Fdh_centro_controllo_elettrodomestici.yaml)
+
+### Metodo 2 · Manuale (funziona sempre)
+
+1. In Home Assistant vai su **Impostazioni → Automazioni e scene → Blueprint**
+2. In basso a destra, **Importa blueprint**
+3. Incolla questo URL e conferma:
+
+```
+https://raw.githubusercontent.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/main/blueprints/dh_centro_controllo_elettrodomestici.yaml
+```
 
 ## ☕ Supporta il Progetto
 
