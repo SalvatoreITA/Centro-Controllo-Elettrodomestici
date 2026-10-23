@@ -1,4 +1,4 @@
-# DomHouse – Centro Controllo Elettrodomestici (Custom Component)
+# Centro Controllo Elettrodomestici (Custom Component)
 
 Integrazione custom per **Home Assistant** che monitora un elettrodomestico tramite una **presa smart**: deduce lo stato (in funzione / fermo) dal consumo, misura durata, energia e costo di ogni ciclo e — se hai un impianto **fotovoltaico** e/o una **batteria** di accumulo — calcola quanta parte del consumo è coperta da energia pulita.
 
