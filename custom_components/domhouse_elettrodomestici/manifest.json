@@ -1,0 +1,12 @@
+{
+  "domain": "domhouse_elettrodomestici",
+  "name": "Centro Controllo Elettrodomestici",
+  "version": "3.0.0",
+  "documentation": "https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici",
+  "issue_tracker": "https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/issues",
+  "codeowners": ["@SalvatoreITA"],
+  "config_flow": true,
+  "integration_type": "device",
+  "iot_class": "calculated",
+  "requirements": []
+}

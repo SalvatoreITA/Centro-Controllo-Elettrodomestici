@@ -1,0 +1,23 @@
+reset:
+  name: Reset contatori
+  description: Azzera i contatori e le statistiche di un elettrodomestico DomHouse.
+  target:
+    entity:
+      integration: domhouse_elettrodomestici
+      domain: binary_sensor
+  fields:
+    azzera:
+      name: Cosa azzerare
+      description: >
+        tutto = tutti i contatori; totali = energia/cicli/tempo lifetime (azzera
+        anche i periodi); statistiche = oggi/mese/anno e storico 7 giorni;
+        ciclo = solo il ciclo in corso.
+      default: tutto
+      required: false
+      selector:
+        select:
+          options:
+            - tutto
+            - totali
+            - statistiche
+            - ciclo

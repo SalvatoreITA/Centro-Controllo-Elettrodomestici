@@ -1,0 +1,138 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DomHouse Elettrodomestici",
+        "menu_options": {
+          "hub": "Impianto fotovoltaico (FV + batteria)",
+          "cost": "Costo energia",
+          "appliance": "Elettrodomestico"
+        }
+      },
+      "hub": {
+        "title": "Impianto fotovoltaico",
+        "description": "Imposta una sola volta i sensori del fotovoltaico e il costo dell'energia: valgono per tutti gli elettrodomestici (salvo override sul singolo).",
+        "data": {
+          "pv_production_sensor": "Produzione fotovoltaico",
+          "pv_export_sensor": "Energia immessa in rete",
+          "pv_import_sensor": "Energia prelevata da rete (serve per lo split FV/batteria)",
+          "battery_bidir": "Potenza batteria (bidirezionale)",
+          "battery_discharge": "Potenza scarica batteria",
+          "battery_sign": "Bidirezionale: quale segno è la scarica",
+          "cost_per_kwh": "Costo energia (€/kWh)"
+        },
+        "data_description": {
+          "battery_bidir": "Un solo sensore con segno (W): compila questo OPPURE «Potenza scarica batteria». Se non hai la batteria lascia vuoti tutti i campi batteria.",
+          "battery_discharge": "Sensore che indica la potenza erogata dalla batteria (scarica), sempre positiva."
+        }
+      },
+      "cost": {
+        "title": "Costo energia",
+        "description": "Imposta una sola volta il prezzo in €/kWh: vale per tutti gli elettrodomestici, con o senza fotovoltaico.",
+        "data": {
+          "cost_per_kwh": "Costo energia (€/kWh)"
+        }
+      },
+      "appliance": {
+        "title": "Aggiungi elettrodomestico",
+        "description": "Monitora un elettrodomestico tramite una presa smart. Lascia vuoti i sensori del fotovoltaico per usare quelli dell'impianto.",
+        "data": {
+          "name": "Nome elettrodomestico",
+          "power_sensor": "Sensore potenza (presa smart)",
+          "switch": "Interruttore presa (opzionale)",
+          "pv_production_sensor": "Produzione fotovoltaico (override, opzionale)",
+          "pv_export_sensor": "Energia immessa in rete (override, opzionale)",
+          "pv_import_sensor": "Energia prelevata da rete (override, opzionale)",
+          "voice_phrase": "Frase annuncio vocale (fine ciclo)"
+        },
+        "data_description": {
+          "voice_phrase": "Detta da Google/Alexa, es. «Lavaggio terminato», «Asciugatura terminata». Seguirà «in X minuti…». La notifica push non cambia."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Esiste già un elemento con questo nome (o l'impianto è già configurato)."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Modifica",
+        "data": {
+          "power_sensor": "Sensore potenza (presa smart)",
+          "switch": "Interruttore presa (opzionale)",
+          "pv_production_sensor": "Produzione fotovoltaico",
+          "pv_export_sensor": "Energia immessa in rete",
+          "pv_import_sensor": "Energia prelevata da rete",
+          "battery_bidir": "Potenza batteria (bidirezionale)",
+          "battery_discharge": "Potenza scarica batteria",
+          "battery_sign": "Bidirezionale: quale segno è la scarica",
+          "cost_per_kwh": "Costo energia (€/kWh)",
+          "voice_phrase": "Frase annuncio vocale (fine ciclo)"
+        },
+        "data_description": {
+          "voice_phrase": "Detta da Google/Alexa, es. «Lavaggio terminato», «Asciugatura terminata». Seguirà «in X minuti…». La notifica push non cambia."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "in_funzione": { "name": "In funzione" }
+    },
+    "sensor": {
+      "potenza": { "name": "Potenza" },
+      "potenza_ftv": { "name": "Potenza da fotovoltaico" },
+      "potenza_rete": { "name": "Potenza da rete" },
+      "potenza_batteria": { "name": "Potenza da batteria" },
+      "energia_ciclo_batteria": { "name": "Energia ciclo da batteria" },
+      "energia_totale_batteria": { "name": "Energia totale da batteria" },
+      "energia_pulita": { "name": "Energia pulita" },
+      "energia_pulita_ciclo": { "name": "Energia pulita ciclo" },
+      "energia_ciclo": { "name": "Energia ciclo" },
+      "energia_ciclo_ftv": { "name": "Energia ciclo da fotovoltaico" },
+      "energia_ciclo_rete": { "name": "Energia ciclo da rete" },
+      "energia_totale": { "name": "Energia totale" },
+      "energia_totale_ftv": { "name": "Energia totale da fotovoltaico" },
+      "energia_totale_rete": { "name": "Energia totale da rete" },
+      "durata_ciclo": { "name": "Durata ciclo" },
+      "costo_ciclo": { "name": "Costo ciclo" },
+      "cicli_totali": { "name": "Cicli totali" },
+      "ultimo_ciclo_fine": { "name": "Fine ultimo ciclo" },
+      "ultimo_ciclo_durata": { "name": "Durata ultimo ciclo" },
+      "ultimo_ciclo_costo": { "name": "Costo ultimo ciclo" },
+      "energia_oggi": { "name": "Energia oggi" },
+      "energia_mese": { "name": "Energia mese" },
+      "energia_anno": { "name": "Energia anno" },
+      "costo_oggi": { "name": "Costo oggi" },
+      "costo_mese": { "name": "Costo mese" },
+      "costo_anno": { "name": "Costo anno" },
+      "cicli_oggi": { "name": "Cicli oggi" },
+      "cicli_mese": { "name": "Cicli mese" },
+      "cicli_anno": { "name": "Cicli anno" },
+      "tempo_oggi": { "name": "Tempo oggi" },
+      "tempo_mese": { "name": "Tempo mese" },
+      "tempo_anno": { "name": "Tempo anno" },
+      "riepilogo_settimana": { "name": "Riepilogo settimana" },
+      "ultimo_reset": { "name": "Ultimo reset" }
+    },
+    "number": {
+      "soglia": { "name": "Soglia di lavoro" },
+      "ritardo_on": { "name": "Ritardo accensione" },
+      "ritardo_off": { "name": "Ritardo spegnimento" }
+    },
+    "switch": {
+      "presa": { "name": "Presa" },
+      "notifica_push": { "name": "Notifica push" },
+      "notifica_google": { "name": "Notifica Google" },
+      "notifica_alexa": { "name": "Notifica Alexa" },
+      "notifica_ha": { "name": "Notifica HA" },
+      "spegnimento_auto": { "name": "Abilita spegnimento" }
+    },
+    "time": {
+      "spegnimento_automatico": { "name": "Spegnimento automatico" },
+      "notifiche_inizio": { "name": "Notifiche dalle" },
+      "notifiche_fine": { "name": "Notifiche alle" }
+    }
+  }
+}

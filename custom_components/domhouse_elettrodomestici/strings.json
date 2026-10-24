@@ -1,0 +1,138 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DomHouse Appliances",
+        "menu_options": {
+          "hub": "PV plant (PV + battery)",
+          "cost": "Energy cost",
+          "appliance": "Appliance"
+        }
+      },
+      "hub": {
+        "title": "PV plant",
+        "description": "Set the PV sensors and the energy cost once: they apply to every appliance (unless overridden per appliance).",
+        "data": {
+          "pv_production_sensor": "PV production",
+          "pv_export_sensor": "Grid export power",
+          "pv_import_sensor": "Grid import power (needed for the PV/battery split)",
+          "battery_bidir": "Battery power (bidirectional)",
+          "battery_discharge": "Battery discharge power",
+          "battery_sign": "Bidirectional: which sign means discharge",
+          "cost_per_kwh": "Energy cost (€/kWh)"
+        },
+        "data_description": {
+          "battery_bidir": "One signed sensor (W): fill this OR 'Battery discharge power'. Leave every battery field empty if you have no battery.",
+          "battery_discharge": "Sensor reporting the power delivered by the battery (discharge), always positive."
+        }
+      },
+      "cost": {
+        "title": "Energy cost",
+        "description": "Set the €/kWh price once: it applies to every appliance, with or without PV.",
+        "data": {
+          "cost_per_kwh": "Energy cost (€/kWh)"
+        }
+      },
+      "appliance": {
+        "title": "Add appliance",
+        "description": "Monitor an appliance through a smart plug. Leave the PV sensors empty to use the plant's ones.",
+        "data": {
+          "name": "Appliance name",
+          "power_sensor": "Power sensor (smart plug)",
+          "switch": "Plug switch (optional)",
+          "pv_production_sensor": "PV production (override, optional)",
+          "pv_export_sensor": "Grid export power (override, optional)",
+          "pv_import_sensor": "Grid import power (override, optional)",
+          "voice_phrase": "Voice announcement phrase (cycle end)"
+        },
+        "data_description": {
+          "voice_phrase": "Spoken by Google/Alexa, e.g. 'Wash finished'. Followed by 'in X minutes…'. The push notification is unchanged."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "An item with this name already exists (or the plant is already configured)."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Edit",
+        "data": {
+          "power_sensor": "Power sensor (smart plug)",
+          "switch": "Plug switch (optional)",
+          "pv_production_sensor": "PV production",
+          "pv_export_sensor": "Grid export power",
+          "pv_import_sensor": "Grid import power",
+          "battery_bidir": "Battery power (bidirectional)",
+          "battery_discharge": "Battery discharge power",
+          "battery_sign": "Bidirectional: which sign means discharge",
+          "cost_per_kwh": "Energy cost (€/kWh)",
+          "voice_phrase": "Voice announcement phrase (cycle end)"
+        },
+        "data_description": {
+          "voice_phrase": "Spoken by Google/Alexa, e.g. 'Wash finished'. Followed by 'in X minutes…'. The push notification is unchanged."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "in_funzione": { "name": "Running" }
+    },
+    "sensor": {
+      "potenza": { "name": "Power" },
+      "potenza_ftv": { "name": "Power from PV" },
+      "potenza_rete": { "name": "Power from grid" },
+      "potenza_batteria": { "name": "Power from battery" },
+      "energia_ciclo_batteria": { "name": "Cycle energy from battery" },
+      "energia_totale_batteria": { "name": "Total energy from battery" },
+      "energia_pulita": { "name": "Clean energy" },
+      "energia_pulita_ciclo": { "name": "Clean energy cycle" },
+      "energia_ciclo": { "name": "Cycle energy" },
+      "energia_ciclo_ftv": { "name": "Cycle energy from PV" },
+      "energia_ciclo_rete": { "name": "Cycle energy from grid" },
+      "energia_totale": { "name": "Total energy" },
+      "energia_totale_ftv": { "name": "Total energy from PV" },
+      "energia_totale_rete": { "name": "Total energy from grid" },
+      "durata_ciclo": { "name": "Cycle duration" },
+      "costo_ciclo": { "name": "Cycle cost" },
+      "cicli_totali": { "name": "Total cycles" },
+      "ultimo_ciclo_fine": { "name": "Last cycle end" },
+      "ultimo_ciclo_durata": { "name": "Last cycle duration" },
+      "ultimo_ciclo_costo": { "name": "Last cycle cost" },
+      "energia_oggi": { "name": "Energy today" },
+      "energia_mese": { "name": "Energy this month" },
+      "energia_anno": { "name": "Energy this year" },
+      "costo_oggi": { "name": "Cost today" },
+      "costo_mese": { "name": "Cost this month" },
+      "costo_anno": { "name": "Cost this year" },
+      "cicli_oggi": { "name": "Cycles today" },
+      "cicli_mese": { "name": "Cycles this month" },
+      "cicli_anno": { "name": "Cycles this year" },
+      "tempo_oggi": { "name": "Runtime today" },
+      "tempo_mese": { "name": "Runtime this month" },
+      "tempo_anno": { "name": "Runtime this year" },
+      "riepilogo_settimana": { "name": "Weekly summary" },
+      "ultimo_reset": { "name": "Last reset" }
+    },
+    "number": {
+      "soglia": { "name": "Working threshold" },
+      "ritardo_on": { "name": "Turn-on delay" },
+      "ritardo_off": { "name": "Turn-off delay" }
+    },
+    "switch": {
+      "presa": { "name": "Plug" },
+      "notifica_push": { "name": "Push notification" },
+      "notifica_google": { "name": "Google notification" },
+      "notifica_alexa": { "name": "Alexa notification" },
+      "notifica_ha": { "name": "HA notification" },
+      "spegnimento_auto": { "name": "Abilita spegnimento" }
+    },
+    "time": {
+      "spegnimento_automatico": { "name": "Spegnimento automatico" },
+      "notifiche_inizio": { "name": "Notifiche dalle" },
+      "notifiche_fine": { "name": "Notifiche alle" }
+    }
+  }
+}
