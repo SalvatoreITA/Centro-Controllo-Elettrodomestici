@@ -6,7 +6,7 @@ blueprint:
     La fascia oraria di Google/Alexa è quella impostata sul device.
     Scegli solo i target su cui inviare. Lascia vuoto un canale per non usarlo.
 
-    ⚙️ **Versione**: 3.0.0
+    ⚙️ **Versione**: 3.2.0
 
     👨‍💻 **Sviluppatore**: Salvatore Lentini
 
@@ -21,12 +21,26 @@ blueprint:
       default: ""
       selector:
         text:
-    notify_service:
-      name: Servizio notifica push
-      description: Es. notify.mobile_app_telefono. Lascia vuoto per non inviare push.
-      default: ""
+    notify_devices:
+      name: Dispositivi notifica push (App Home Assistant)
+      description: >
+        Seleziona dalla tendina uno o più smartphone/tablet configurati con l'app Home Assistant.
+      default: []
       selector:
-        text:
+        device:
+          integration: mobile_app
+          multiple: true
+    notify_service:
+      name: Altri servizi notifica push (Opzionale / Avanzato)
+      description: >
+        Usa questo campo solo per servizi notify non legati all'app (es. Telegram, gruppi notify).
+        Scrivi il nome e premi Invio. Lascia vuoto se usi già la tendina qui sopra.
+      default: []
+      selector:
+        select:
+          options: []
+          multiple: true
+          custom_value: true
     media_player_google:
       name: Media player Google (TTS)
       default: []
@@ -60,7 +74,22 @@ trigger:
 
 variables:
   nome_filtro: !input nome_filtro
+  dev_push: !input notify_devices
   svc_push: !input notify_service
+  # Converte i dispositivi scelti dalla tendina in servizi notify.mobile_app_...
+  dev_push_list: >-
+    {% set ns = namespace(services=[]) %}
+    {% for dev in dev_push or [] %}
+      {% set dev_name = device_attr(dev, 'name') %}
+      {% if dev_name %}
+        {% set ns.services = ns.services + ['notify.mobile_app_' ~ slugify(dev_name)] %}
+      {% endif %}
+    {% endfor %}
+    {{ ns.services }}
+  # Gestisce eventuali servizi scritti a mano e li unisce a quelli della tendina senza duplicati
+  manual_push_list: >-
+    {% set s = svc_push or [] %}{% if s is string %}{% set s = s.split(',') %}{% endif %}{{ s | map('trim') | reject('eq', '') | list }}
+  push_list: "{{ (dev_push_list + manual_push_list) | unique | list }}"
   mp_google: !input media_player_google
   svc_google_tts: !input tts_google_service
   mp_alexa: !input media_player_alexa
@@ -101,13 +130,16 @@ condition:
     value_template: "{{ nome_filtro == '' or trigger.event.data.name == nome_filtro }}"
 
 action:
-  - if: "{{ vpush and svc_push | trim != '' }}"
+  - if: "{{ vpush and push_list | count > 0 }}"
     then:
-      - service: "{{ svc_push }}"
-        continue_on_error: true
-        data:
-          title: "{{ nome }}"
-          message: "{{ messaggio }}"
+      - repeat:
+          for_each: "{{ push_list }}"
+          sequence:
+            - service: "{{ repeat.item }}"
+              continue_on_error: true
+              data:
+                title: "{{ nome }}"
+                message: "{{ messaggio }}"
   - if: "{{ vha }}"
     then:
       - service: persistent_notification.create
