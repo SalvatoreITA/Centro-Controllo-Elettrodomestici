@@ -25,7 +25,7 @@ Tutto è **event-driven** (reagisce ai cambi del sensore di potenza) con un tick
 2. Aggiungi l'URL del repository, categoria **Integration**.
 3. Cerca *DH - Centro Controllo Elettrodomestici* e installa.
 4. **Riavvia** Home Assistant.
-5. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione** → cerca *DH - Centro Controllo Elettrodomestici*.
+5. **Impostazioni → Dispositivi e servizi → Aggiungi integrazione** → cerca *Centro Controllo Elettrodomestici*.
 
 ### Manuale
 Copia la cartella `custom_components/domhouse_elettrodomestici` in `config/custom_components/` e riavvia HA.
