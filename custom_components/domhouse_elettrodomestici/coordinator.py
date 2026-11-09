@@ -230,6 +230,12 @@ class ApplianceCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 for metric in METRICS:
                     self._baseline[period][metric] = self._current(metric)
             self._baseline_ready = True
+        # Ciclo ancora aperto al riavvio: riparte come "in funzione". Se la potenza
+        # è sotto soglia, il ritardo di spegnimento chiude il ciclo normalmente
+        # (altrimenti resterebbe aperto e si fonderebbe col ciclo successivo).
+        if self.cycle_active:
+            self.running = True
+            self._above = True
         self._unsub_state = async_track_state_change_event(
             self.hass, [self._power_sensor], self._handle_power_event
         )
