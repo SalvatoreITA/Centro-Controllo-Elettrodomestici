@@ -60,10 +60,25 @@ _BATTERY_SIGN_SELECTOR = selector.SelectSelector(
 )
 
 
+# Campi opzionali che l'utente deve poter svuotare dalle opzioni
+_HUB_CLEARABLE = (
+    CONF_PV_PRODUCTION,
+    CONF_PV_EXPORT,
+    CONF_PV_IMPORT,
+    CONF_BATTERY_BIDIR,
+    CONF_BATTERY_DISCHARGE,
+)
+_APPLIANCE_CLEARABLE = (CONF_SWITCH, CONF_PV_PRODUCTION, CONF_PV_EXPORT, CONF_PV_IMPORT)
+
+
 def _opt(key: str, defaults: dict[str, Any], sel: Any) -> dict:
-    """Campo opzionale che precompila il valore corrente se presente."""
+    """Campo opzionale che precompila il valore corrente se presente.
+
+    Usa suggested_value (non default): così, se l'utente svuota il campo,
+    il valore non viene reinserito in automatico.
+    """
     if defaults.get(key):
-        return {vol.Optional(key, default=defaults[key]): sel}
+        return {vol.Optional(key, description={"suggested_value": defaults[key]}): sel}
     return {vol.Optional(key): sel}
 
 
@@ -189,11 +204,21 @@ class DomHouseOptionsFlow(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Modifica le opzioni, in base al tipo di entry."""
+        entry_type = self._entry.data.get(CONF_ENTRY_TYPE)
         if user_input is not None:
-            return self.async_create_entry(title="", data=user_input)
+            # Un campo svuotato non arriva in user_input: va salvato come None,
+            # altrimenti resterebbe valido il valore iniziale in entry.data.
+            if entry_type == ENTRY_TYPE_HUB:
+                clearable = _HUB_CLEARABLE
+            elif entry_type == ENTRY_TYPE_COST:
+                clearable = ()
+            else:
+                clearable = _APPLIANCE_CLEARABLE
+            data = {key: None for key in clearable}
+            data.update(user_input)
+            return self.async_create_entry(title="", data=data)
 
         current = {**self._entry.data, **self._entry.options}
-        entry_type = self._entry.data.get(CONF_ENTRY_TYPE)
         if entry_type == ENTRY_TYPE_HUB:
             schema = _hub_schema(current)
         elif entry_type == ENTRY_TYPE_COST:
