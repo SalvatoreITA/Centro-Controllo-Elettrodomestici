@@ -4,7 +4,7 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/SalvatoreITA/Centro-Controllo-Elettrodomestici/blob/main/README.md)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![version](https://img.shields.io/badge/version-v3.0.2-blue.svg)]()
+[![version](https://img.shields.io/badge/version-v3.0.3-blue.svg)]()
 [![maintainer](https://img.shields.io/badge/maintainer-Salvatore_Lentini_--_DomHouse.it-green.svg)](https://www.domhouse.it)
 
 Integrazione custom per **Home Assistant** che monitora un elettrodomestico tramite una **presa smart**: deduce lo stato (in funzione / fermo) dal consumo, misura durata, energia e costo di ogni ciclo e — se hai un impianto **fotovoltaico** e/o una **batteria** di accumulo — calcola quanta parte del consumo è coperta da energia pulita.
