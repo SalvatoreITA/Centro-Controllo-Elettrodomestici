@@ -11,7 +11,7 @@
       },
       "hub": {
         "title": "PV plant",
-        "description": "Set the PV sensors and the energy cost once: they apply to every appliance (unless overridden per appliance).",
+        "description": "Set the PV and battery sensors once: they apply to every appliance (unless overridden per appliance).",
         "data": {
           "pv_production_sensor": "PV production",
           "pv_export_sensor": "Grid export power",
@@ -127,12 +127,12 @@
       "notifica_google": { "name": "Google notification" },
       "notifica_alexa": { "name": "Alexa notification" },
       "notifica_ha": { "name": "HA notification" },
-      "spegnimento_auto": { "name": "Abilita spegnimento" }
+      "spegnimento_auto": { "name": "Enable auto power off" }
     },
     "time": {
-      "spegnimento_automatico": { "name": "Spegnimento automatico" },
-      "notifiche_inizio": { "name": "Notifiche dalle" },
-      "notifiche_fine": { "name": "Notifiche alle" }
+      "spegnimento_automatico": { "name": "Auto power off time" },
+      "notifiche_inizio": { "name": "Notifications from" },
+      "notifiche_fine": { "name": "Notifications until" }
     }
   }
 }
