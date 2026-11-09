@@ -11,7 +11,7 @@
       },
       "hub": {
         "title": "Impianto fotovoltaico",
-        "description": "Imposta una sola volta i sensori del fotovoltaico e il costo dell'energia: valgono per tutti gli elettrodomestici (salvo override sul singolo).",
+        "description": "Imposta una sola volta i sensori del fotovoltaico e della batteria: valgono per tutti gli elettrodomestici (salvo override sul singolo).",
         "data": {
           "pv_production_sensor": "Produzione fotovoltaico",
           "pv_export_sensor": "Energia immessa in rete",
