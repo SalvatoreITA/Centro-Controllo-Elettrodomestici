@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.storage import Store
 
@@ -58,7 +58,20 @@ async def _async_setup_hub(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "cost_per_kwh": float(cfg.get(CONF_COST_PER_KWH, DEFAULT_COST_PER_KWH)),
     }
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
+    # Le entità FV/batteria degli elettrodomestici si creano in base all'impianto:
+    # se l'impianto viene aggiunto/modificato dopo, ricarica quelli già attivi.
+    _reload_loaded_appliances(hass)
     return True
+
+
+def _reload_loaded_appliances(hass: HomeAssistant) -> None:
+    """Ricarica gli elettrodomestici già caricati (per creare/rimuovere le entità FV/batteria)."""
+    for other in hass.config_entries.async_entries(DOMAIN):
+        if (
+            other.data.get(CONF_ENTRY_TYPE) not in (ENTRY_TYPE_HUB, ENTRY_TYPE_COST)
+            and other.state is ConfigEntryState.LOADED
+        ):
+            hass.async_create_task(hass.config_entries.async_reload(other.entry_id))
 
 
 async def _async_setup_cost(hass: HomeAssistant, entry: ConfigEntry) -> bool:
